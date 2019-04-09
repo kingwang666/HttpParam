@@ -1,0 +1,23 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //gradle sdk
+    compileOnly gradleApi()
+    //groovy sdk
+    compileOnly localGroovy()
+
+    compileOnly 'com.android.tools.build:gradle:3.3.2'
+    // https://mvnrepository.com/artifact/org.ow2.asm/asm
+    implementation 'org.ow2.asm:asm:7.1'
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://F://repository")
+        pom.groupId = "com.wang.httpparam"// 唯一标识（通常为模块包名，也可以任意）
+        pom.artifactId = "httpparam" // 项目名称（通常为类库模块名称，也可以任意）
+        pom.version = "1.0.0" // 版本号
+    }
+}
