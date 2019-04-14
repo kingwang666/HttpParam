@@ -1,6 +1,7 @@
 package com.example.httpparam
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+            Log.d("test", "${Test().params}")
+            Log.d("test", "${KotlinTest().getParams()}")
         }
     }
 
