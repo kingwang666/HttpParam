@@ -42,7 +42,7 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
     static MethodHelper create(String className, String signature, String superName, String annotation, GradleConfig config) {
         switch (annotation) {
             case PARAMS:
-                return new ParamsMethodHelper(className, signature, superName, config)
+                return new ParamsStringMethodHelper(className, signature, superName, config)
         }
         return null
     }
@@ -78,21 +78,12 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
 
     protected abstract void addField(MethodVisitor mv, KField field);
 
-    protected static void toString(MethodVisitor mv, KField field) {
-        if (field.isArray) {
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/util/Arrays", "toString", "($field.descriptor)Ljava/lang/String;", false)
-        } else if (field.isReference && !field.isString) {
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, field.classPath, "toString", "()Ljava/lang/String;", false)
-        } else if (!field.isString) {
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String", "valueOf", "($field.descriptor)Ljava/lang/String;", false)
-        }
-    }
+
 
 
     @Override
     String toString() {
-        return "{" +
-                ", mClassName='" + mClassName + '\'' +
+        return "{mClassName='" + mClassName + '\'' +
                 ", mClassDesc='" + mClassDesc + '\'' +
                 ", mClassSign='" + mClassSign + '\'' +
                 ", mSuperName='" + mSuperName + '\'' +

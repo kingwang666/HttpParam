@@ -8,9 +8,9 @@ import org.objectweb.asm.Opcodes
  * Author: wangxiaojie6
  * Date: 2019/3/28
  */
-class ParamsMethodHelper extends MethodHelper {
+class ParamsStringMethodHelper extends MethodHelper {
 
-    ParamsMethodHelper(String className, String signature, String superName, GradleConfig config) {
+    ParamsStringMethodHelper(String className, String signature, String superName, GradleConfig config) {
         super(className, signature, superName, "Ljava/util/Map;", "Ljava/util/Map<Ljava/lang/String;Ljava/lang/String;>;", config)
         methodName = "getParams"
         root = false
@@ -20,9 +20,9 @@ class ParamsMethodHelper extends MethodHelper {
     @Override
     protected void init(MethodVisitor mv) {
         if (root){
-            mv.visitTypeInsn(Opcodes.NEW, "java/util/HashMap")
+            mv.visitTypeInsn(Opcodes.NEW, mConfig.androidx ? "androidx/collection/ArrayMap" : "android.support.v4.util.ArrayMap")
             mv.visitInsn(Opcodes.DUP)
-            mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/HashMap", "<init>", "()V", false)
+            mv.visitMethodInsn(Opcodes.INVOKESPECIAL, mConfig.androidx ? "androidx/collection/ArrayMap" : "android.support.v4.util.ArrayMap", "<init>", "()V", false)
             mv.visitVarInsn(Opcodes.ASTORE, 1)
         }else {
             mv.visitVarInsn(Opcodes.ALOAD, 0)
@@ -50,7 +50,7 @@ class ParamsMethodHelper extends MethodHelper {
                 mv.visitFrame(Opcodes.F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 2, ["java/util/Map", "java/lang/String"] as Object[])
                 mv.visitVarInsn(Opcodes.ALOAD, 0)
                 mv.visitFieldInsn(Opcodes.GETFIELD, mClassName, field.name, field.descriptor)
-                toString(mv, field)
+                field.toString(mv) //toString
                 mv.visitLabel(l2)
                 mv.visitFrame(Opcodes.F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 3, ["java/util/Map", "java/lang/String", "java/lang/String"] as Object[])
                 mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
@@ -68,7 +68,7 @@ class ParamsMethodHelper extends MethodHelper {
                 mv.visitLdcInsn(field.name)
                 mv.visitVarInsn(Opcodes.ALOAD, 0)
                 mv.visitFieldInsn(Opcodes.GETFIELD, mClassName, field.name, field.descriptor)
-                toString(mv, field)
+                field.toString(mv) //toString
                 mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
                 mv.visitInsn(Opcodes.POP)
                 mv.visitLabel(l1)
@@ -84,7 +84,7 @@ class ParamsMethodHelper extends MethodHelper {
             mv.visitLdcInsn(field.name)
             mv.visitVarInsn(Opcodes.ALOAD, 0)
             mv.visitFieldInsn(Opcodes.GETFIELD, mClassName, field.name, field.descriptor)
-            toString(mv, field)
+            field.toString(mv) //toString
             mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
             mv.visitInsn(Opcodes.POP)
             Label l1 = new Label()
