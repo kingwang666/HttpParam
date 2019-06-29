@@ -9,6 +9,8 @@ class GradleConfig {
 
     public final boolean add
 
+    public final boolean androidx
+
     public final String fileClass
 
     public final FileParam fileParam
@@ -22,6 +24,7 @@ class GradleConfig {
     GradleConfig(GradleParams params) {
         debug = params.debug
         add = params.add
+        androidx = params.androidx
         if (params.fileClass != null && params.fileClass.length() > 0) {
             fileClass = params.fileClass
         } else {
@@ -37,6 +40,6 @@ class GradleConfig {
 
     @Override
     String toString() {
-        return "debug= $debug, add= $add, fileClass= $fileClass, fileParam= $fileParam, exclude= $exclude"
+        return "debug= $debug, add= $add, androidx= $androidx, fileClass= $fileClass, fileParam= $fileParam, exclude= $exclude"
     }
 }

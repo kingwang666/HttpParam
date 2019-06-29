@@ -3,20 +3,18 @@ package com.wang.httpparam;
 import java.lang.annotation.*;
 
 /**
- * Author: wangxiaojie6
- * Date: 2019/3/28
+ * Created on 2019/6/28.
+ * Author: bigwang
+ * Description:
  */
 @Documented
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
-public @interface Params {
+public @interface Parts {
 
-    String name() default "getParams";
-
-    ParamsType type() default ParamsType.STRING;
+    String name() default "getParts";
 
     boolean replace() default false;
 
     boolean root() default false;
-
 }
