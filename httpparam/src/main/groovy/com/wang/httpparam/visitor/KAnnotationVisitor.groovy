@@ -2,6 +2,7 @@ package com.wang.httpparam.visitor
 
 import com.wang.httpparam.HttpParamPlugin
 import com.wang.httpparam.mode.MethodHelper
+import com.wang.httpparam.mode.ParamsMethodHelper
 import org.objectweb.asm.AnnotationVisitor
 
 /**
@@ -42,4 +43,28 @@ class KAnnotationVisitor extends AnnotationVisitor {
         super.visit(name, value)
     }
 
+    @Override
+    void visitEnum(String name, String descriptor, String value) {
+        if (HttpParamPlugin.DEBUG) {
+            println "enum name = [$name], descriptor = [$descriptor], value = [$value]"
+        }
+        switch (name){
+            case "type":
+                if (mHelper instanceof ParamsMethodHelper){
+                    mHelper.setType(value)
+                }
+                break
+        }
+        super.visitEnum(name, descriptor, value)
+    }
+
+    @Override
+    void visitEnd() {
+        super.visitEnd()
+        if (HttpParamPlugin.DEBUG) {
+            println ""
+            println "helper: $mHelper"
+            println ""
+        }
+    }
 }

@@ -37,7 +37,7 @@ class InsertMethodClassVisitor extends ClassVisitor {
         mName = name
         mSignature = signature
         mSuperName = superName
-        mRoot = superName == Constants.NAME_OBJECT
+        mRoot = superName == Constants.CLASS_OBJECT
     }
 
 
@@ -52,10 +52,6 @@ class InsertMethodClassVisitor extends ClassVisitor {
             }
             av = new KAnnotationVisitor(Opcodes.ASM5, av, helper)
             helper.root = helper.root || mRoot
-            if (mConfig.debug) {
-                println ""
-                println "helper: $helper"
-            }
             mHelpers.add(helper)
         }
         return av
@@ -67,7 +63,7 @@ class InsertMethodClassVisitor extends ClassVisitor {
         if (mHelpers.isEmpty()){
             return fv
         }
-        return new KFieldVisitor(Opcodes.ASM5, fv, mFields, new KField(name, descriptor))
+        return new KFieldVisitor(Opcodes.ASM5, fv, mFields, new KField(name, descriptor, signature))
     }
 
 
@@ -75,6 +71,7 @@ class InsertMethodClassVisitor extends ClassVisitor {
     MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         if (preProcessHelpers(name, signature)) {
             if (mConfig.debug){
+                println ""
                 println "class $mName remove method: access = [$access], name = [$name], descriptor = [$descriptor], signature = [$signature], exceptions = [$exceptions]"
             }
             return null
@@ -107,7 +104,11 @@ class InsertMethodClassVisitor extends ClassVisitor {
             }
             helper.insert(cv, mFields)
             if (mConfig.debug){
+                println ""
                 println "class $mName inserted method ${helper.methodName}"
+                println ""
+                println ""
+                println ""
             }
         }
         super.visitEnd()

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
             Log.d("test", "${Test().params}")
             Log.d("test", "${KotlinTest().getParams()}")
+
         }
     }
 
