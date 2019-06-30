@@ -1,28 +1,4 @@
-apply plugin: 'groovy'
-apply plugin: 'maven'
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //gradle sdk
-    compileOnly gradleApi()
-    //groovy sdk
-    compileOnly localGroovy()
-
-    compileOnly 'com.android.tools.build:gradle:3.4.1'
-    // https://mvnrepository.com/artifact/org.ow2.asm/asm
-    implementation 'org.ow2.asm:asm:7.1'
-}
-
-//uploadArchives {
-//    repositories.mavenDeployer {
-//        repository(url: "file://F://repository")
-//        pom.groupId = "com.wang.httpparam"// 唯一标识（通常为模块包名，也可以任意）
-//        pom.artifactId = "httpparam" // 项目名称（通常为类库模块名称，也可以任意）
-//        pom.version = "1.0.0" // 版本号
-//    }
-//}
-
-//apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 version = VERSION_NAME              // 这是库版本部署工件时使用
@@ -38,8 +14,8 @@ install {
             project {
                 packaging 'aar'
                 name DESC     // 项目描述
-                url siteUrl
                 artifactId NAME
+                url siteUrl
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
@@ -64,19 +40,19 @@ install {
 }
 
 task sourcesJar(type: Jar) {
-    from project.file('src/main/groovy')
+    from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
 
-//task javadoc(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//}
-//
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//    classifier = 'javadoc'
-//    from javadoc.destinationDir
-//}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
 
 javadoc {
     options {
@@ -90,7 +66,7 @@ javadoc {
 }
 
 artifacts {
-//    archives javadocJar
+    archives javadocJar
     archives sourcesJar
 }
 

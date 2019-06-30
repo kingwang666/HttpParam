@@ -1,5 +1,7 @@
 package com.example.httpparam;
 
+import android.os.Environment;
+
 import java.io.File;
 
 /**
@@ -19,7 +21,7 @@ public class FileInput {
     public String mimeType = "mime type";
 
     @Data
-    public File data = new File("123");
+    public File data = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
 
     @Override
     public String toString() {
