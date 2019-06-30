@@ -21,23 +21,25 @@ import java.util.Map;
         replace = true,
         type = ParamsType.STRING
 )
+@Parts
+@Body
 public class Test extends BaseTest {
 
-    public boolean aBoolean;
+    public boolean aBoolean = true;
 
-    public byte aByte;
+    public byte aByte = 2;
 
-    public char aChar;
+    public char aChar ='w';
 
-    public double aDouble;
+    public double aDouble = 1.1;
 
-    public float aFloat;
+    public float aFloat = 2.2f;
 
-    public int aInt;
+    public int aInt = 3;
 
-    public long aLong;
+    public long aLong = 0xff;
 
-    public short aShort;
+    public short aShort = 1;
 
     @Ignore
     private boolean mm;
@@ -47,7 +49,7 @@ public class Test extends BaseTest {
     public int[] cc;
     //
     @NonNull
-    public String name = "";
+    public String name = "wang";
 
     public String[] girls;
 
@@ -68,61 +70,5 @@ public class Test extends BaseTest {
     @PostFiles
     public List<FileInput> files3;
 
-    @NonNull
-    public List<MultipartBody.Part> getParts() {
-        List<MultipartBody.Part> parts = super.getParts();
-        if (cc != null) {
-            parts.add(MultipartBody.Part.createFormData("cc", Arrays.toString(cc)));
-        }
 
-        return parts;
-    }
-
-
-    @NonNull
-    public Map<String, String> getParams() {
-        Map<String, String> params = new ArrayMap<>();
-//        params.put("cc", cc == null ? "" : Arrays.toString(cc));
-        if (mTest != null) {
-            params.put("mTest", mTest.toString());
-        }
-
-
-        return params;
-    }
-
-
-    @NonNull
-    public MultipartBody.Builder getBody() {
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        builder.setType(MultipartBody.FORM);
-        builder.addFormDataPart("aLong", String.valueOf(aLong));
-        builder.addFormDataPart("aShort", String.valueOf(aShort));
-        if (mTest != null) {
-            builder.addFormDataPart("mTest", mTest.toString());
-        }
-        builder.addFormDataPart("cc", cc == null ? "" : Arrays.toString(cc));
-        builder.addFormDataPart("name", name);
-        if (girls != null) {
-            builder.addFormDataPart("girls", Arrays.toString(girls));
-        }
-        if (file != null) {
-            builder.addFormDataPart(file.key, file.filename, RequestBody.create(MediaType.parse(file.mimeType), file.data));
-        }
-        builder.addFormDataPart(file2.key, file2.filename, RequestBody.create(MediaType.parse(file2.mimeType), file2.data));
-        if (files != null) {
-            for (FileInput file : files) {
-                builder.addFormDataPart(file.key, file.filename, RequestBody.create(MediaType.parse(file.mimeType), file.data));
-            }
-        }
-        for (FileInput file : files2) {
-            builder.addFormDataPart(file.key, file.filename, RequestBody.create(MediaType.parse(file.mimeType), file.data));
-        }
-        if (files3 != null) {
-            for (FileInput file : files3) {
-                builder.addFormDataPart(file.key, file.filename, RequestBody.create(MediaType.parse(file.mimeType), file.data));
-            }
-        }
-        return builder;
-    }
 }

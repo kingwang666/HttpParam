@@ -1,1 +1,1 @@
-include ':app', ':httpparam', ':httpparam_annotation'
+include ':app', ':httpparam', ':httpparam-annotation'

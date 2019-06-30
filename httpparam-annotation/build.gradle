@@ -31,3 +31,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+
+//uploadArchives {
+//    repositories.mavenDeployer {
+////        repository(url: "file://F://repository")
+////        pom.groupId = "com.wang.httpparam"// 唯一标识（通常为模块包名，也可以任意）
+//        pom.artifactId = NAME // 项目名称（通常为类库模块名称，也可以任意）
+////        pom.version = "1.0.0" // 版本号
+//    }
+//}
+apply from: '../bintray.gradle'
