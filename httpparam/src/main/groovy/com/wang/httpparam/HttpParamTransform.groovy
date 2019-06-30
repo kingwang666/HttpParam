@@ -202,8 +202,7 @@ class HttpParamTransform extends Transform {
         if (!name.endsWith(".class")
                 || name == "R.class"
                 || name.startsWith("R\$")
-                || name == "BuildConfig.class"
-                || classPath == mConfig.fileClass) {
+                || name == "BuildConfig.class") {
             return false
         }
         for (String packageName : mConfig.exclude) {
