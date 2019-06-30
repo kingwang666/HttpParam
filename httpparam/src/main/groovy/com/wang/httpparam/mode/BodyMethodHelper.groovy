@@ -135,7 +135,6 @@ class BodyMethodHelper extends MethodHelper {
         if (l1 == null) {
             l1 = new Label()
         }
-        mv.vi
         mv.visitLabel(l1)
         if (field.isNullable) {
             if (mSame) {
