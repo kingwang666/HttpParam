@@ -39,7 +39,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.squareup.okhttp3:okhttp:3.14.2'
-    implementation project(path: ':httpparam-annotation')
+    implementation 'com.wang.httpparam:httpparam-annotation:1.0.0'
+//    implementation project(path: ':httpparam-annotation')
 }
 
 apply plugin: 'com.wang.httpparam'
