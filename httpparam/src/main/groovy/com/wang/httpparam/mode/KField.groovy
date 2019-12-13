@@ -40,7 +40,7 @@ class KField {
 
     public final String classPath
 
-    public final String childClassPath = null
+    public final String childClassPath
 
     public final boolean isArray
 
@@ -75,9 +75,9 @@ class KField {
         }
         if (childDescriptor != null){
             matcher = pattern.matcher(childDescriptor)
-            if (matcher.matches()){
-                childClassPath = matcher.group(1)
-            }
+            childClassPath = matcher.matches() ? matcher.group(1) : null
+        }else {
+            childClassPath = null
         }
         isString = descriptor == Constants.DESC_STRING
         isNullable = isReference || isArray

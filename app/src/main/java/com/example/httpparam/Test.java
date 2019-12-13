@@ -65,7 +65,7 @@ public class Test extends BaseTest {
 
     @PostFiles
     @NonNull
-    public List<FileInput> files2 = new ArrayList<>();
+    public ArrayList<FileInput> files2 = new ArrayList<>();
 
     @PostFiles
     public List<FileInput> files3;
