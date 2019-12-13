@@ -60,15 +60,20 @@ public class Test extends BaseTest {
     @NonNull
     public FileInput file2 = new FileInput();
 
-    @PostFiles
+    @PostFile
     public List<FileInput> files;
 
-    @PostFiles
+    @PostFile
     @NonNull
-    public ArrayList<FileInput> files2 = new ArrayList<>();
+    public List<FileInput> files2 = new ArrayList<>();
 
-    @PostFiles
+    @PostFile
     public List<FileInput> files3;
 
+    @PostFile
+    public FileInput[] files4;
+
+    @PostFile
+    public Map<String, FileInput> files5;
 
 }

@@ -313,7 +313,7 @@ class ParamsMethodHelper extends MethodHelper {
      * @param field
      */
     @Override
-    protected void addFilesField(MethodVisitor mv, KField field) {
+    protected void addFilesListField(MethodVisitor mv, KField field) {
         Label l1
         if (field.isNullable) {
             mv.visitVarInsn(Opcodes.ALOAD, 0)

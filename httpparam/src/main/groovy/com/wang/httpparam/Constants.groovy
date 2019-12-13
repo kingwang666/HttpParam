@@ -10,6 +10,10 @@ interface Constants {
 
     String DESC_STRING = "Ljava/lang/String;"
 
+    String DESC_LIST = "Ljava/util/List;"
+
+    String DESC_MAP = "Ljava/util/Map;"
+
     String DESC_BOOLEAN = "Z"
 
     String CLASS_BOOLEAN = "java/lang/Boolean"

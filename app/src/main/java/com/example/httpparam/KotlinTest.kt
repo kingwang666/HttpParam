@@ -9,7 +9,7 @@ import com.wang.httpparam.Params
  * Date: 2019/4/14
  */
 @Params(replace = true)
-class KotlinTest {
+open class KotlinTest {
 
     var aa = 1
 

@@ -95,15 +95,19 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
     protected abstract Label init(MethodVisitor mv);
 
     protected void addField(MethodVisitor mv, KField field) {
-        switch (field.mType) {
+        switch (field.type) {
             case KField.NORM:
                 addNormField(mv, field)
                 break
             case KField.FILE:
                 addFileField(mv, field)
                 break
-            case KField.FILES:
-                addFilesField(mv, field)
+            case KField.FILES_ARRAY:
+                break
+            case KField.FILES_LIST:
+                addFilesListField(mv, field)
+                break
+            case KField.FILES_MAP:
                 break
         }
     }
@@ -112,7 +116,7 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
 
     protected abstract void addFileField(MethodVisitor mv, KField field);
 
-    protected abstract void addFilesField(MethodVisitor mv, KField field);
+    protected abstract void addFilesListField(MethodVisitor mv, KField field);
 
 
 }
