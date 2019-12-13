@@ -8,104 +8,104 @@ dependencies {
     //groovy sdk
     compileOnly localGroovy()
 
-    compileOnly 'com.android.tools.build:gradle:3.4.1'
+    compileOnly 'com.android.tools.build:gradle:3.5.3'
     // https://mvnrepository.com/artifact/org.ow2.asm/asm
     implementation 'org.ow2.asm:asm:7.1'
 }
 
-//uploadArchives {
-//    repositories.mavenDeployer {
-//        repository(url: "file://D://repository")
-//        pom.groupId = "com.wang.httpparam"// 唯一标识（通常为模块包名，也可以任意）
-//        pom.artifactId = "httpparam" // 项目名称（通常为类库模块名称，也可以任意）
-//        pom.version = "1.0.0" // 版本号
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://D://repository")
+        pom.groupId = GROUP// 唯一标识（通常为模块包名，也可以任意）
+        pom.artifactId = NAME // 项目名称（通常为类库模块名称，也可以任意）
+        pom.version = VERSION_NAME // 版本号
+    }
+}
+
+////apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.jfrog.bintray'
+//
+//version = VERSION_NAME              // 这是库版本部署工件时使用
+//
+//def siteUrl = SITE_URL  // 项目的主页
+//def gitUrl = GIT_URL // Git仓库的url
+//group = GROUP       // Maven Group ID for the artifact，一般填你唯一的包名
+//
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//                name DESC     // 项目描述
+//                url siteUrl
+//                artifactId NAME
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'kingwang666'                // 开发者信息
+//                        name 'wangxiaojie'              // 开发者信息
+//                        email 'wangxiaojielove666@gmail.com'    // 开发者信息
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//                }
+//            }
+//        }
 //    }
 //}
-
-//apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
-version = VERSION_NAME              // 这是库版本部署工件时使用
-
-def siteUrl = SITE_URL  // 项目的主页
-def gitUrl = GIT_URL // Git仓库的url
-group = GROUP       // Maven Group ID for the artifact，一般填你唯一的包名
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                name DESC     // 项目描述
-                url siteUrl
-                artifactId NAME
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'kingwang666'                // 开发者信息
-                        name 'wangxiaojie'              // 开发者信息
-                        email 'wangxiaojielove666@gmail.com'    // 开发者信息
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    from project.file('src/main/groovy')
-    classifier = 'sources'
-}
-
-//task javadoc(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//
+//task sourcesJar(type: Jar) {
+//    from project.file('src/main/groovy')
+//    archiveClassifier.set('sources')
 //}
 //
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//    classifier = 'javadoc'
-//    from javadoc.destinationDir
+////task javadoc(type: Javadoc) {
+////    source = android.sourceSets.main.java.srcDirs
+////    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+////}
+////
+////task javadocJar(type: Jar, dependsOn: javadoc) {
+////    classifier = 'javadoc'
+////    from javadoc.destinationDir
+////}
+//
+//javadoc {
+//    options {
+//        encoding "UTF-8"
+//        charSet 'UTF-8'
+//        author true
+//        version true
+//        links "http://docs.oracle.com/javase/7/docs/api"
+//        title DESC   // 文档标题
+//    }
 //}
-
-javadoc {
-    options {
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        author true
-        version true
-        links "http://docs.oracle.com/javase/7/docs/api"
-        title DESC   // 文档标题
-    }
-}
-
-artifacts {
-//    archives javadocJar
-    archives sourcesJar
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = NAME             // 发布到JCenter上的项目名字
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
-}
+//
+//artifacts {
+////    archives javadocJar
+//    archives sourcesJar
+//}
+//
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//bintray {
+//    user = properties.getProperty("bintray.user")
+//    key = properties.getProperty("bintray.apikey")
+//    configurations = ['archives']
+//    pkg {
+//        repo = "maven"
+//        name = NAME             // 发布到JCenter上的项目名字
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+//        licenses = ["Apache-2.0"]
+//        publish = true
+//    }
+//}

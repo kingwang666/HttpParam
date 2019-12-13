@@ -5,6 +5,7 @@ import com.wang.httpparam.Constants
 import com.wang.httpparam.HttpParamPlugin
 import com.wang.httpparam.mode.KField
 import org.objectweb.asm.AnnotationVisitor
+import org.objectweb.asm.Attribute
 import org.objectweb.asm.FieldVisitor
 
 /**
@@ -22,7 +23,6 @@ class KFieldVisitor extends FieldVisitor {
     private boolean mAdd = true
     private boolean isFile = false
     private boolean isFiles = false
-
 
     KFieldVisitor(int api, FieldVisitor fieldVisitor, List<KField> fields, KField field) {
         super(api, fieldVisitor)
