@@ -1,15 +1,21 @@
 package com.example.httpparam;
 
 
+import android.os.Environment;
+
 import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
-import com.wang.httpparam.*;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
+import com.wang.httpparam.Body;
+import com.wang.httpparam.Ignore;
+import com.wang.httpparam.ParamName;
+import com.wang.httpparam.Params;
+import com.wang.httpparam.ParamsType;
+import com.wang.httpparam.Parts;
+import com.wang.httpparam.PostFile;
+
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -49,26 +55,41 @@ public class Test extends BaseTest {
     public int[] cc;
     //
     @NonNull
+    @ParamName("xxxxx")
     public String name = "wang";
 
     public String[] girls;
 
+    @PostFile(key = "123File")
+    public File file;
+
     @PostFile
-    public FileInput file;
+    public FileInput filein;
 
     @PostFile
     @NonNull
     public FileInput file2 = new FileInput();
 
-    @PostFiles
-    public List<FileInput> files;
+    @PostFile(key = "testCustomFiles")
+    public List<FileInput> files = new ArrayList<>();
 
-    @PostFiles
+    @PostFile
     @NonNull
-    public ArrayList<FileInput> files2 = new ArrayList<>();
+    public List<FileInput> files2 = new ArrayList<>();
 
-    @PostFiles
+    @PostFile
     public List<FileInput> files3;
 
+    @PostFile
+    public FileInput[] files4 = new FileInput[1];
 
+    @PostFile
+    public Map<String, FileInput> files5 = new ArrayMap<>();
+
+
+    public Test() {
+        file = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
+        files4[0] = new FileInput();
+        files5.put("testMap", new FileInput());
+    }
 }
