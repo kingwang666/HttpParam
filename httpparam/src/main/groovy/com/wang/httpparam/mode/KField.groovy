@@ -44,6 +44,8 @@ class KField {
 
     public final String childClassPath
 
+    public String customName
+
     public final boolean isArray
 
     /**
@@ -56,6 +58,8 @@ class KField {
     public final boolean isReference
 
     public final boolean isString
+
+    public final boolean isJavaIOFile
 
     public boolean isNullable
 
@@ -71,8 +75,16 @@ class KField {
         isMap = descriptor == Constants.DESC_MAP
 
         if (signature != null) {
-            pattern = isMap ? Pattern.compile("^\\[*?L.+?<Ljava/lang/String;(.+)>;\\\$") : Pattern.compile("^\\[*?L.+?<(.+)>;\$")
+            pattern = isList ? Pattern.compile("^\\[*?L.+?<(.+)>;\$") :
+                    isMap ? Pattern.compile("^\\[*?L.+?<Ljava/lang/String;(.+)>;\$") :
+                            isArray ? Pattern.compile("^\\[(.+)\$") : Pattern.compile("^\\[*?L.+?<(.+)>;\$")
             matcher = pattern.matcher(signature)
+            if (matcher.matches()) {
+                childDescriptor = matcher.group(1)
+            }
+        }else if (isArray){
+            pattern = Pattern.compile("^\\[(.+)\$")
+            matcher = pattern.matcher(descriptor)
             if (matcher.matches()) {
                 childDescriptor = matcher.group(1)
             }
@@ -91,6 +103,7 @@ class KField {
         } else {
             childClassPath = null
         }
+        isJavaIOFile = descriptor == Constants.DESC_FILE || (childClassPath != null && childClassPath == Constants.CLASS_FILE)
         isString = descriptor == Constants.DESC_STRING
         isNullable = isReference || isArray || isList || isMap
     }
@@ -99,7 +112,7 @@ class KField {
         if (isArray) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/util/Arrays", "toString", "(${getArrayToStringDesc()})Ljava/lang/String;", false)
         } else if (isReference && !isString) {
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, classPath, "toString", "()Ljava/lang/String;", false)
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false)
         } else if (!isString) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String", "valueOf", "(${getStringValueOfDesc()})Ljava/lang/String;", false)
         }
@@ -127,6 +140,10 @@ class KField {
         }
     }
 
+    boolean isCustom() {
+        return customName != null && customName.length() > 0
+    }
+
     private String getReferenceClassPath() {
         switch (descriptor) {
             case Constants.DESC_BOOLEAN:
@@ -149,21 +166,21 @@ class KField {
         return null
     }
 
-    void initFileType(){
-        if (isList){
+    void initFileType() {
+        if (isList) {
             type = FILES_LIST
-        }else if (isMap){
+        } else if (isMap) {
             type = FILES_MAP
-        }else if (isArray){
+        } else if (isArray) {
             type = FILES_ARRAY
-        }else {
+        } else {
             type = FILE
         }
     }
 
 
     @Override
-    public String toString() {
+    String toString() {
         return "{" +
                 "type=" + type +
                 ", name='" + name + '\'' +
@@ -172,11 +189,13 @@ class KField {
                 ", childDescriptor='" + childDescriptor + '\'' +
                 ", classPath='" + classPath + '\'' +
                 ", childClassPath='" + childClassPath + '\'' +
+                ", customName='" + customName + '\'' +
                 ", isArray=" + isArray +
                 ", isMap=" + isMap +
                 ", isList=" + isList +
                 ", isReference=" + isReference +
                 ", isString=" + isString +
+                ", isJavaIOFile=" + isJavaIOFile +
                 ", isNullable=" + isNullable +
                 '}'
     }

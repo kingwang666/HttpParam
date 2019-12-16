@@ -6,6 +6,7 @@ import com.wang.httpparam.HttpParamPlugin
 import com.wang.httpparam.mode.KField
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.FieldVisitor
+import org.objectweb.asm.Opcodes
 
 /**
  * Author: wangxiaojie6
@@ -15,6 +16,7 @@ class KFieldVisitor extends FieldVisitor {
 
     private static final String IGNORE = "Lcom/wang/httpparam/Ignore;"
     private static final String FILE = "Lcom/wang/httpparam/PostFile;"
+    private static final String PARAM_NAME = "Lcom/wang/httpparam/ParamName;"
 
     private List<KField> mFields
     private KField mField
@@ -34,7 +36,11 @@ class KFieldVisitor extends FieldVisitor {
         if (mField.isReference || mField.isArray || mField.isList || mField.isMap) {
             mField.isNullable = !hasNonNull(descriptor)
         }
-        return super.visitAnnotation(descriptor, visible)
+        AnnotationVisitor av = super.visitAnnotation(descriptor, visible)
+        if (descriptor == FILE || descriptor == PARAM_NAME) {
+            av = new KFieldAnnotationVisitor(Opcodes.ASM5, av, mField)
+        }
+        return av
     }
 
     private static boolean hasNonNull(String descriptor) {
@@ -49,7 +55,7 @@ class KFieldVisitor extends FieldVisitor {
     @Override
     void visitEnd() {
         if (mAdd) {
-            if (isFile){
+            if (isFile) {
                 mField.initFileType()
             }
             if (HttpParamPlugin.DEBUG) {

@@ -7,6 +7,8 @@ import com.wang.httpparam.ParamsType;
 import com.wang.httpparam.Parts;
 import okhttp3.MultipartBody;
 
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,14 @@ import java.util.Map;
 @Body
 public class BaseTest {
 
+    public String guessMimeType(String path) {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentTypeFor = fileNameMap.getContentTypeFor(path);
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream";
+        }
+        return contentTypeFor;
+    }
 
     @NonNull
     public Map<String, String> getParams() {
