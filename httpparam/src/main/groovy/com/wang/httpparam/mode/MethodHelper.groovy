@@ -25,6 +25,7 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
     protected String mReturnSignature
 
     protected boolean mSame
+    protected boolean mArrayFirst
 
     public String methodName
     public boolean root = false
@@ -58,6 +59,7 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
     @Override
     void insert(ClassVisitor cv, List<KField> fields) {
         mSame = false
+        mArrayFirst = true
         MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC, methodName, "()$mReturnDesc", "()$mReturnSignature", null)
         mv.visitCode()
         Label l0 = new Label()
@@ -95,15 +97,21 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
     protected abstract Label init(MethodVisitor mv);
 
     protected void addField(MethodVisitor mv, KField field) {
-        switch (field.mType) {
+        switch (field.type) {
             case KField.NORM:
                 addNormField(mv, field)
                 break
             case KField.FILE:
                 addFileField(mv, field)
                 break
-            case KField.FILES:
-                addFilesField(mv, field)
+            case KField.FILES_ARRAY:
+                addFilesArrayField(mv, field)
+                break
+            case KField.FILES_LIST:
+                addFilesListField(mv, field)
+                break
+            case KField.FILES_MAP:
+                addFilesMapField(mv, field)
                 break
         }
     }
@@ -112,7 +120,10 @@ abstract class MethodHelper implements ICodeInsert<ClassVisitor> {
 
     protected abstract void addFileField(MethodVisitor mv, KField field);
 
-    protected abstract void addFilesField(MethodVisitor mv, KField field);
+    protected abstract void addFilesArrayField(MethodVisitor mv, KField field)
 
+    protected abstract void addFilesListField(MethodVisitor mv, KField field);
+
+    protected abstract void addFilesMapField(MethodVisitor mv, KField field);
 
 }

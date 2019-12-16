@@ -10,6 +10,12 @@ interface Constants {
 
     String DESC_STRING = "Ljava/lang/String;"
 
+    String DESC_LIST = "Ljava/util/List;"
+
+    String DESC_FILE = "Ljava/io/File;"
+
+    String DESC_MAP = "Ljava/util/Map;"
+
     String DESC_BOOLEAN = "Z"
 
     String CLASS_BOOLEAN = "java/lang/Boolean"
@@ -41,6 +47,8 @@ interface Constants {
     String DESC_SHORT = "S"
 
     String CLASS_SHORT = "java/lang/Short"
+
+    String CLASS_FILE= "java/io/File"
 
     String[] NON_NULL = [
             "Landroidx/annotation/NonNull;",

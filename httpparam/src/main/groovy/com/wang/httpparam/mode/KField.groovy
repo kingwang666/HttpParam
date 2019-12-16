@@ -26,9 +26,11 @@ class KField {
 
     public static final int NORM = 1
     public static final int FILE = 2
-    public static final int FILES = 3
+    public static final int FILES_ARRAY = 3
+    public static final int FILES_LIST = 4
+    public static final int FILES_MAP = 5
 
-    public int mType
+    public int type
 
     public final String name
 
@@ -42,26 +44,48 @@ class KField {
 
     public final String childClassPath
 
+    public String customName
+
     public final boolean isArray
+
+    /**
+     * only support key is string
+     */
+    public final boolean isMap
+
+    public final boolean isList
 
     public final boolean isReference
 
     public final boolean isString
 
+    public final boolean isJavaIOFile
+
     public boolean isNullable
 
     KField(String name, String descriptor, String signature) {
-        mType = NORM
+        type = NORM
         this.name = name
         this.descriptor = descriptor
         this.signature = signature
         Pattern pattern = Pattern.compile("^\\[+?")
         Matcher matcher = pattern.matcher(descriptor)
         isArray = matcher.find()
+        isList = descriptor == Constants.DESC_LIST
+        isMap = descriptor == Constants.DESC_MAP
+
         if (signature != null) {
-            pattern = Pattern.compile("^\\[*?L.+?<(.+)>;\$")
+            pattern = isList ? Pattern.compile("^\\[*?L.+?<(.+)>;\$") :
+                    isMap ? Pattern.compile("^\\[*?L.+?<Ljava/lang/String;(.+)>;\$") :
+                            isArray ? Pattern.compile("^\\[(.+)\$") : Pattern.compile("^\\[*?L.+?<(.+)>;\$")
             matcher = pattern.matcher(signature)
-            if (matcher.matches()){
+            if (matcher.matches()) {
+                childDescriptor = matcher.group(1)
+            }
+        }else if (isArray){
+            pattern = Pattern.compile("^\\[(.+)\$")
+            matcher = pattern.matcher(descriptor)
+            if (matcher.matches()) {
                 childDescriptor = matcher.group(1)
             }
         }
@@ -73,21 +97,22 @@ class KField {
         } else {
             classPath = getReferenceClassPath()
         }
-        if (childDescriptor != null){
+        if (childDescriptor != null) {
             matcher = pattern.matcher(childDescriptor)
             childClassPath = matcher.matches() ? matcher.group(1) : null
-        }else {
+        } else {
             childClassPath = null
         }
+        isJavaIOFile = descriptor == Constants.DESC_FILE || (childClassPath != null && childClassPath == Constants.CLASS_FILE)
         isString = descriptor == Constants.DESC_STRING
-        isNullable = isReference || isArray
+        isNullable = isReference || isArray || isList || isMap
     }
 
     void toString(MethodVisitor mv) {
         if (isArray) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/util/Arrays", "toString", "(${getArrayToStringDesc()})Ljava/lang/String;", false)
         } else if (isReference && !isString) {
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, classPath, "toString", "()Ljava/lang/String;", false)
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false)
         } else if (!isString) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String", "valueOf", "(${getStringValueOfDesc()})Ljava/lang/String;", false)
         }
@@ -99,7 +124,6 @@ class KField {
         }
     }
     /**
-     * todo descriptor 为多维数组情况
      * @return
      */
     String getArrayToStringDesc() {
@@ -114,6 +138,10 @@ class KField {
             default:
                 return descriptor
         }
+    }
+
+    boolean isCustom() {
+        return customName != null && customName.length() > 0
     }
 
     private String getReferenceClassPath() {
@@ -138,18 +166,36 @@ class KField {
         return null
     }
 
+    void initFileType() {
+        if (isList) {
+            type = FILES_LIST
+        } else if (isMap) {
+            type = FILES_MAP
+        } else if (isArray) {
+            type = FILES_ARRAY
+        } else {
+            type = FILE
+        }
+    }
+
 
     @Override
     String toString() {
-        return "{name='" + name + '\'' +
+        return "{" +
+                "type=" + type +
+                ", name='" + name + '\'' +
                 ", descriptor='" + descriptor + '\'' +
                 ", signature='" + signature + '\'' +
                 ", childDescriptor='" + childDescriptor + '\'' +
                 ", classPath='" + classPath + '\'' +
                 ", childClassPath='" + childClassPath + '\'' +
+                ", customName='" + customName + '\'' +
                 ", isArray=" + isArray +
+                ", isMap=" + isMap +
+                ", isList=" + isList +
                 ", isReference=" + isReference +
                 ", isString=" + isString +
+                ", isJavaIOFile=" + isJavaIOFile +
                 ", isNullable=" + isNullable +
                 '}'
     }
