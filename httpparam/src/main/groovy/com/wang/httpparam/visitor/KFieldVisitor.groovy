@@ -5,6 +5,7 @@ import com.wang.httpparam.Constants
 import com.wang.httpparam.HttpParamPlugin
 import com.wang.httpparam.mode.KField
 import org.objectweb.asm.AnnotationVisitor
+import org.objectweb.asm.Attribute
 import org.objectweb.asm.FieldVisitor
 import org.objectweb.asm.Opcodes
 
@@ -27,6 +28,14 @@ class KFieldVisitor extends FieldVisitor {
         super(api, fieldVisitor)
         mFields = fields
         mField = field
+    }
+
+    @Override
+    void visitAttribute(Attribute attribute) {
+        super.visitAttribute(attribute)
+        if (HttpParamPlugin.DEBUG) {
+            println "$mField.name field attribute: $attribute"
+        }
     }
 
     @Override

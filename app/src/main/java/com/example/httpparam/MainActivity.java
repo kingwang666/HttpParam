@@ -2,7 +2,6 @@ package com.example.httpparam;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,7 +52,14 @@ public class MainActivity extends AppCompatActivity {
                 test.getBody().build().writeTo(buffer);
                 Log.d("test", buffer.readUtf8());
                 Log.d("test", "log body end");
-//                Log.d("test", new KotlinTest().getParams().toString());
+
+                Log.d("test", new KotlinTest().getParams().toString());
+
+                Log.d("test", "log kotlin body start");
+                buffer.clear();
+                new KotlinTest().getBody().build().writeTo(buffer);
+                Log.d("test", buffer.readUtf8());
+                Log.d("test", "log kotlin body end");
             } catch (IOException e) {
                 e.printStackTrace();
             }
