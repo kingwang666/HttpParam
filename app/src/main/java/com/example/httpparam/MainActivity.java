@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             Buffer buffer = new Buffer();
-            Test test = new Test();
+            FileReq test = new FileReq();
             StringBuilder builder = new StringBuilder();
             Log.d("test", "log params start");
             Log.d("test", test.getParams().toString());

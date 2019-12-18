@@ -511,9 +511,9 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
 
         //load key
         if (field.isCustom()) {
-            mv.visitLdcInsn("${field.customName}\"; filename=\"")
+            mv.visitLdcInsn("${field.customName}\"; filename=\"".toString())
         } else if (field.isJavaIOFile) {
-            mv.visitLdcInsn("${field.name}\"; filename=\"")
+            mv.visitLdcInsn("${field.name}\"; filename=\"".toString())
         } else {
             mv.visitVarInsn(ALOAD, index)
             if (index == 0) {

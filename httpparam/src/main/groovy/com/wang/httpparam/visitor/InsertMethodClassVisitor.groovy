@@ -57,6 +57,7 @@ class InsertMethodClassVisitor extends ClassVisitor {
         return av
     }
 
+
     @Override
     FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
         FieldVisitor fv = super.visitField(access, name, descriptor, signature, value)
@@ -69,7 +70,7 @@ class InsertMethodClassVisitor extends ClassVisitor {
 
     @Override
     MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-        if (preProcessHelpers(name, signature)) {
+        if (preProcessHelpers(access, name, signature)) {
             if (mConfig.debug){
                 println ""
                 println "class $mName remove method: access = [$access], name = [$name], descriptor = [$descriptor], signature = [$signature], exceptions = [$exceptions]"
@@ -79,14 +80,18 @@ class InsertMethodClassVisitor extends ClassVisitor {
         return super.visitMethod(access, name, descriptor, signature, exceptions)
     }
 
-    private boolean preProcessHelpers(String name, String signature) {
+    private boolean preProcessHelpers(int access, String name, String signature) {
         Iterator<MethodHelper> iterator = mHelpers.iterator()
         while (iterator.hasNext()) {
             MethodHelper helper = iterator.next()
             if (helper.methodName == name && (signature == null || signature.startsWith("()"))) {
-                if (helper.replace) {
+                if (helper.replace || (access & Opcodes.ACC_SYNTHETIC) == Opcodes.ACC_SYNTHETIC) {
                     return true
                 } else {
+                    if (mConfig.debug){
+                        println ""
+                        println "class $mName remove $helper"
+                    }
                     iterator.remove()
                     return false
                 }

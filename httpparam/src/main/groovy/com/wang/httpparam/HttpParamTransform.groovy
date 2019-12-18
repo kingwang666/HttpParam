@@ -26,11 +26,9 @@ class HttpParamTransform extends Transform {
 
     private Project mProject
     private GradleConfig mConfig
-    private boolean mFirst
 
     HttpParamTransform(Project project) {
         mProject = project
-        mFirst = true
     }
 
     void setConfig(GradleConfig config) {
@@ -66,24 +64,19 @@ class HttpParamTransform extends Transform {
         def time = System.currentTimeMillis()
         Collection<TransformInput> inputs = transformInvocation.inputs
         TransformOutputProvider outputProvider = transformInvocation.outputProvider
-        boolean incremental
-        if (mFirst){
-            incremental = false
-            mFirst = false
-        }else {
-            incremental = transformInvocation.incremental
-        }
+        boolean currentIncremental = transformInvocation.incremental
+
         //删除之前的输出
-        if (!incremental) {
+        if (!currentIncremental) {
             outputProvider.deleteAll()
         }
 
         for (TransformInput input : inputs) {
             for (JarInput jar : input.getJarInputs()) {
-                handleJarInputs(jar, outputProvider, incremental)
+                handleJarInputs(jar, outputProvider, currentIncremental)
             }
             for (DirectoryInput directory : input.getDirectoryInputs()) {
-                handleDirectoryInput(directory, outputProvider, incremental)
+                handleDirectoryInput(directory, outputProvider, currentIncremental)
             }
         }
 

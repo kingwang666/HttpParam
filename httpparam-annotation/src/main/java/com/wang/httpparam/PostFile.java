@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface PostFile {
 
     /**
-     *the post file key. the field type is map is invalid
+     *the post file key. default use field.name. it is invalid when field type is map.
      */
     String key() default "";
 

@@ -11,16 +11,15 @@ import java.io.File;
  */
 public class FileInput {
 
-    @Key
+
     public String key = "key";
 
-    @Filename
     public String filename = "file name";
 
-    @MimeType
+
     public String mimeType = "mime type";
 
-    @Data
+
     public File data = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
 
     @Override
