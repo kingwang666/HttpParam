@@ -23,7 +23,6 @@ class FileParam {
         return mimeType != null && mimeType.length() > 0
     }
 
-
     @Override
     String toString() {
         return "{key= $key, filename= $filename, mimeType= $mimeType, data= $data}"

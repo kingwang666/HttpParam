@@ -1,15 +1,20 @@
 package com.example.httpparam
 
+import android.os.Environment
 import androidx.collection.ArrayMap
+import com.wang.httpparam.Body
 import com.wang.httpparam.Ignore
 import com.wang.httpparam.Params
+import com.wang.httpparam.PostFile
+import java.io.File
 
 /**
  * Author: wang
  * Date: 2019/4/14
  */
 @Params(replace = true)
-open class KotlinTest {
+@Body
+open class KotlinTest : BaseTest() {
 
     var aa = 1
 
@@ -18,17 +23,9 @@ open class KotlinTest {
     @Ignore
     var cc = 2
 
-    fun getParams(): Map<String, String>? {
-        return null
-    }
+
+    @PostFile(key = "123File")
+    var file: File? = File(Environment.getExternalStorageDirectory().toString() + File.separator + "test.txt")
 
 
-    open fun getParams222(): MutableMap<String, String> {
-        val params = ArrayMap<String, String>()
-        params["aa"] = aa.toString()
-        str?.also {
-            params["str"] = it
-        }
-        return params
-    }
 }
