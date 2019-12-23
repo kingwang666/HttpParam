@@ -12,10 +12,6 @@ import com.wang.httpparam.Parts;
 import com.wang.httpparam.PostFile;
 
 import java.io.File;
-import java.util.Map;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 /**
  * Created on 2019/12/17
