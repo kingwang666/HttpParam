@@ -8,7 +8,7 @@ dependencies {
     //groovy sdk
     compileOnly localGroovy()
 
-    compileOnly 'com.android.tools.build:gradle:3.5.3'
+    compileOnly 'com.android.tools.build:gradle:3.6.3'
     // https://mvnrepository.com/artifact/org.ow2.asm/asm
     implementation 'org.ow2.asm:asm:7.1'
 }

@@ -20,6 +20,7 @@ public class FileInput {
     public String mimeType = "mime type";
 
 
+    @Data
     public File data = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
 
     @Override
