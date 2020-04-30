@@ -199,25 +199,55 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
         if (field.isNullable) {
             if (mConfig.add) {
                 mv.visitVarInsn(ALOAD, 1)
-                //param name
+                //load key
                 mv.visitLdcInsn(field.isCustom() ? field.customName : field.name)
+
+                if (mConfig.okHttpV4) {
+                    //load data
+                    mv.visitVarInsn(ALOAD, 0)
+                    mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                    Label l1 = new Label()
+                    mv.visitJumpInsn(IFNONNULL, l1)
+                    mv.visitLdcInsn("")
+                    Label l2 = new Label()
+                    mv.visitJumpInsn(GOTO, l2)
+                    mv.visitLabel(l1)
+                    mv.visitFrame(F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 2, ["java/util/Map", "java/lang/String"] as Object[])
+                    mv.visitVarInsn(ALOAD, 0)
+                    mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                    field.toString(mv)
+                    mv.visitLabel(l2)
+                    mv.visitFrame(F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 3, ["java/util/Map", "java/lang/String", "java/lang/String"] as Object[])
+                }
+
+                //load mimeType
                 mv.visitLdcInsn("text/plain")
                 mv.visitMethodInsn(INVOKESTATIC, "okhttp3/MediaType", "parse", "(Ljava/lang/String;)Lokhttp3/MediaType;", false)
-                mv.visitVarInsn(ALOAD, 0)
-                mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
-                Label l1 = new Label()
-                mv.visitJumpInsn(IFNONNULL, l1)
-                mv.visitLdcInsn("")
-                Label l2 = new Label()
-                mv.visitJumpInsn(GOTO, l2)
-                mv.visitLabel(l1)
-                mv.visitFrame(F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 3, ["java/util/Map", "java/lang/String", "okhttp3/MediaType"] as Object[])
-                mv.visitVarInsn(ALOAD, 0)
-                mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
-                field.toString(mv)
-                mv.visitLabel(l2)
-                mv.visitFrame(F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 4, ["java/util/Map", "java/lang/String", "okhttp3/MediaType", "java/lang/String"] as Object[])
-                mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;", false)
+
+                if (!mConfig.okHttpV4) {
+                    //load data
+                    mv.visitVarInsn(ALOAD, 0)
+                    mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                    Label l1 = new Label()
+                    mv.visitJumpInsn(IFNONNULL, l1)
+                    mv.visitLdcInsn("")
+                    Label l2 = new Label()
+                    mv.visitJumpInsn(GOTO, l2)
+                    mv.visitLabel(l1)
+                    mv.visitFrame(F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 3, ["java/util/Map", "java/lang/String", "okhttp3/MediaType"] as Object[])
+                    mv.visitVarInsn(ALOAD, 0)
+                    mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                    field.toString(mv)
+                    mv.visitLabel(l2)
+                    mv.visitFrame(F_FULL, 2, [mClassName, "java/util/Map"] as Object[], 4, ["java/util/Map", "java/lang/String", "okhttp3/MediaType", "java/lang/String"] as Object[])
+
+                    //created
+                    mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;", false)
+                } else {
+                    //created
+                    mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Ljava/lang/String;Lokhttp3/MediaType;)Lokhttp3/RequestBody;", false)
+                }
+
                 mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
                 mv.visitInsn(POP)
                 Label l3 = new Label()
@@ -230,14 +260,34 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
                 Label l2 = new Label()
                 mv.visitLabel(l2)
                 mv.visitVarInsn(ALOAD, 1)
-                //param name
+
+                //load key
                 mv.visitLdcInsn(field.isCustom() ? field.customName : field.name)
+
+                if (mConfig.okHttpV4) {
+                    //load data
+                    mv.visitVarInsn(ALOAD, 0)
+                    mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                    field.toString(mv)
+                }
+
+                //load mimeType
                 mv.visitLdcInsn("text/plain")
                 mv.visitMethodInsn(INVOKESTATIC, "okhttp3/MediaType", "parse", "(Ljava/lang/String;)Lokhttp3/MediaType;", false)
-                mv.visitVarInsn(ALOAD, 0)
-                mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
-                field.toString(mv)
-                mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;", false)
+
+                if (!mConfig.okHttpV4) {
+                    //load data
+                    mv.visitVarInsn(ALOAD, 0)
+                    mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                    field.toString(mv)
+
+                    //created
+                    mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;", false)
+                } else {
+                    //created
+                    mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Ljava/lang/String;Lokhttp3/MediaType;)Lokhttp3/RequestBody;", false)
+                }
+
                 mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
                 mv.visitInsn(POP)
                 mv.visitLabel(l1)
@@ -250,14 +300,33 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
             }
         } else {
             mv.visitVarInsn(ALOAD, 1)
-            //param name
+            //load key
             mv.visitLdcInsn(field.isCustom() ? field.customName : field.name)
+
+            if (mConfig.okHttpV4) {
+                //load data
+                mv.visitVarInsn(ALOAD, 0)
+                mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                field.toString(mv)
+            }
+
+            //load mimeType
             mv.visitLdcInsn("text/plain")
             mv.visitMethodInsn(INVOKESTATIC, "okhttp3/MediaType", "parse", "(Ljava/lang/String;)Lokhttp3/MediaType;", false)
-            mv.visitVarInsn(ALOAD, 0)
-            mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
-            field.toString(mv)
-            mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;", false)
+
+            if (!mConfig.okHttpV4) {
+                //load data
+                mv.visitVarInsn(ALOAD, 0)
+                mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+                field.toString(mv)
+
+                //created
+                mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;", false)
+            }else {
+                //created
+                mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Ljava/lang/String;Lokhttp3/MediaType;)Lokhttp3/RequestBody;", false)
+            }
+
             mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
             mv.visitInsn(POP)
             Label label = new Label()
@@ -455,6 +524,16 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false)
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false)
 
+        if (mConfig.okHttpV4) {
+            //load data
+            mv.visitVarInsn(ALOAD, 3)
+            mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map\$Entry", "getValue", "()Ljava/lang/Object;", true)
+            mv.visitTypeInsn(CHECKCAST, field.childClassPath)
+            if (!field.isJavaIOFile) {
+                mv.visitFieldInsn(GETFIELD, field.childClassPath, mConfig.fileParam.data, "Ljava/io/File;")
+            }
+        }
+
         //load mimeType
         if (field.isJavaIOFile) {
             mv.visitVarInsn(ALOAD, 0)
@@ -477,15 +556,22 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
             mv.visitMethodInsn(INVOKEVIRTUAL, mClassName, "guessMimeType", "(Ljava/lang/String;)Ljava/lang/String;", false)
         }
         mv.visitMethodInsn(INVOKESTATIC, "okhttp3/MediaType", "parse", "(Ljava/lang/String;)Lokhttp3/MediaType;", false)
-        //load data
-        mv.visitVarInsn(ALOAD, 3)
-        mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map\$Entry", "getValue", "()Ljava/lang/Object;", true)
-        mv.visitTypeInsn(CHECKCAST, field.childClassPath)
-        if (!field.isJavaIOFile) {
-            mv.visitFieldInsn(GETFIELD, field.childClassPath, mConfig.fileParam.data, "Ljava/io/File;")
+
+        if (!mConfig.okHttpV4) {
+            //load data
+            mv.visitVarInsn(ALOAD, 3)
+            mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map\$Entry", "getValue", "()Ljava/lang/Object;", true)
+            mv.visitTypeInsn(CHECKCAST, field.childClassPath)
+            if (!field.isJavaIOFile) {
+                mv.visitFieldInsn(GETFIELD, field.childClassPath, mConfig.fileParam.data, "Ljava/io/File;")
+            }
+            //create RequestBody
+            mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/io/File;)Lokhttp3/RequestBody;", false)
+        } else {
+            //create RequestBody
+            mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Ljava/io/File;Lokhttp3/MediaType;)Lokhttp3/RequestBody;", false)
         }
 
-        mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/io/File;)Lokhttp3/RequestBody;", false)
         mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
         mv.visitInsn(POP)
 
@@ -540,6 +626,17 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false)
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false)
 
+        if (mConfig.okHttpV4) {
+            //load data
+            mv.visitVarInsn(ALOAD, index)
+            if (index == 0) {
+                mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+            }
+            if (!field.isJavaIOFile) {
+                mv.visitFieldInsn(GETFIELD, index == 0 ? field.classPath : field.childClassPath, mConfig.fileParam.data, "Ljava/io/File;")
+            }
+        }
+
         //load miniype
         if (field.isJavaIOFile) {
             mv.visitVarInsn(ALOAD, 0)
@@ -570,17 +667,22 @@ class ParamsMethodHelper extends MethodHelper implements Opcodes {
         }
         mv.visitMethodInsn(INVOKESTATIC, "okhttp3/MediaType", "parse", "(Ljava/lang/String;)Lokhttp3/MediaType;", false)
 
-        //load data
-        mv.visitVarInsn(ALOAD, index)
-        if (index == 0) {
-            mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
-        }
-        if (!field.isJavaIOFile) {
-            mv.visitFieldInsn(GETFIELD, index == 0 ? field.classPath : field.childClassPath, mConfig.fileParam.data, "Ljava/io/File;")
+        if (!mConfig.okHttpV4) {
+            //load data
+            mv.visitVarInsn(ALOAD, index)
+            if (index == 0) {
+                mv.visitFieldInsn(GETFIELD, mClassName, field.name, field.descriptor)
+            }
+            if (!field.isJavaIOFile) {
+                mv.visitFieldInsn(GETFIELD, index == 0 ? field.classPath : field.childClassPath, mConfig.fileParam.data, "Ljava/io/File;")
+            }
+            //create RequestBody
+            mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/io/File;)Lokhttp3/RequestBody;", false)
+        } else {
+            //create RequestBody
+            mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Ljava/io/File;Lokhttp3/MediaType;)Lokhttp3/RequestBody;", false)
         }
 
-        //create RequestBody
-        mv.visitMethodInsn(INVOKESTATIC, "okhttp3/RequestBody", "create", "(Lokhttp3/MediaType;Ljava/io/File;)Lokhttp3/RequestBody;", false)
         mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
         mv.visitInsn(POP)
     }

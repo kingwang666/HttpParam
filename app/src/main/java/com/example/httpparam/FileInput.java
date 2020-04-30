@@ -14,7 +14,7 @@ public class FileInput {
 
     public String key = "key";
 
-    public String filename = "file name";
+    public String filename = "test.png";
 
 
     public String mimeType = "mime type";

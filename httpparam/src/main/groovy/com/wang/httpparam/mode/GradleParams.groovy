@@ -8,6 +8,8 @@ class GradleParams {
 
     def androidx = true
 
+    def okHttpV4 = true
+
     Map<String, Object> file
 
     List<String> exclude = []
@@ -16,6 +18,6 @@ class GradleParams {
 
     @Override
     String toString() {
-        return "debug= $debug, add= $add, androidx= $androidx, file= $file, exclude= $exclude"
+        return "debug= $debug, add= $add, androidx= $androidx, okHttpV4= $okHttpV4, file= $file, exclude= $exclude"
     }
 }
