@@ -34,14 +34,14 @@ httpparam-annotation
 	        .
 	        .
 	        .
-			classpath 'com.wang.httpparam:httpparam:1.1.1'  
+			classpath 'com.wang.httpparam:httpparam:1.2.1'  
 		}
     }
     
      
 
     //annotations 
-    implementation 'com.wang.httpparam:httpparam-annotation:1.1.1'
+    implementation 'com.wang.httpparam:httpparam-annotation:1.2.1'
 
 
 你可以自定义一些参数
@@ -56,6 +56,8 @@ httpparam-annotation
 	    add = true
 	    //使用support的ArrayMap 还是 androidx的ArrayMap
 	    androidx = true
+        //是否为okhttp 4.x版本
+        okHttpV4 = true
 	
 	    file = [
 	            //文件上传结构体key值参数名称 必须为public 类型String，默认为"key"

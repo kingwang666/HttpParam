@@ -6,6 +6,7 @@ import com.wang.httpparam.Params;
 import com.wang.httpparam.ParamsType;
 import com.wang.httpparam.Parts;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -26,6 +27,7 @@ import java.util.Map;
 @Body
 public class BaseTest {
 
+    @NonNull
     public String guessMimeType(String path) {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();
         String contentTypeFor = fileNameMap.getContentTypeFor(path);
@@ -36,8 +38,8 @@ public class BaseTest {
     }
 
     @NonNull
-    public Map<String, String> getParams() {
-        Map<String, String> params = new HashMap<>();
+    public Map<String, RequestBody> getParams() {
+        Map<String, RequestBody> params = new HashMap<>();
         return params;
     }
 

@@ -9,9 +9,6 @@ import androidx.collection.ArrayMap;
 import com.wang.httpparam.Body;
 import com.wang.httpparam.Ignore;
 import com.wang.httpparam.ParamName;
-import com.wang.httpparam.Params;
-import com.wang.httpparam.ParamsType;
-import com.wang.httpparam.Parts;
 import com.wang.httpparam.PostFile;
 
 import java.io.File;
@@ -23,11 +20,11 @@ import java.util.Map;
  * Author: wangxiaojie6
  * Date: 2019/3/25
  */
-@Params(
-        replace = true,
-        type = ParamsType.STRING
-)
-@Parts
+//@Params(
+//        replace = true,
+//        type = ParamsType.STRING
+//)
+//@Parts
 @Body
 public class Test extends BaseTest {
 
@@ -35,7 +32,7 @@ public class Test extends BaseTest {
 
     public byte aByte = 2;
 
-    public char aChar ='w';
+    public char aChar = 'w';
 
     public double aDouble = 1.1;
 
@@ -92,4 +89,6 @@ public class Test extends BaseTest {
         files4[0] = new FileInput();
         files5.put("testMap", new FileInput());
     }
+
+
 }

@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                     .setAction("Action", null).show();
             Buffer buffer = new Buffer();
             FileReq test = new FileReq();
+//            Test test = new Test();
             StringBuilder builder = new StringBuilder();
             Log.d("test", "log params start");
             Log.d("test", test.getParams().toString());
@@ -53,11 +54,25 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("test", buffer.readUtf8());
                 Log.d("test", "log body end");
 
-                Log.d("test", new KotlinTest().getParams().toString());
+
+                KotlinTest kotlinTest = new KotlinTest();
+
+                Log.d("test", "log kotlin params start");
+                Log.d("test", kotlinTest.getParams().toString());
+                Log.d("test", "log kotlin params end\n");
+                Log.d("test", "log kotlin parts start");
+                for (MultipartBody.Part part : kotlinTest.getParts()) {
+                    builder.append("\n").append(part.headers());
+                    buffer.clear();
+                    part.body().writeTo(buffer);
+                    builder.append(buffer.readUtf8());
+                }
+                Log.d("test", builder.toString());
+                Log.d("test", "log kotlin parts end");
 
                 Log.d("test", "log kotlin body start");
                 buffer.clear();
-                new KotlinTest().getBody().build().writeTo(buffer);
+                kotlinTest.getBody().build().writeTo(buffer);
                 Log.d("test", buffer.readUtf8());
                 Log.d("test", "log kotlin body end");
             } catch (IOException e) {

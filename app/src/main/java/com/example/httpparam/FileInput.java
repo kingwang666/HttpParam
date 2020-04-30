@@ -14,12 +14,13 @@ public class FileInput {
 
     public String key = "key";
 
-    public String filename = "file name";
+    public String filename = "test.png";
 
 
     public String mimeType = "mime type";
 
 
+    @Data
     public File data = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
 
     @Override

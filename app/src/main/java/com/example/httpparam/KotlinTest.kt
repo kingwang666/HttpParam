@@ -2,18 +2,17 @@ package com.example.httpparam
 
 import android.os.Environment
 import androidx.collection.ArrayMap
-import com.wang.httpparam.Body
-import com.wang.httpparam.Ignore
-import com.wang.httpparam.Params
-import com.wang.httpparam.PostFile
+import com.wang.httpparam.*
 import java.io.File
+import java.util.*
 
 /**
  * Author: wang
  * Date: 2019/4/14
  */
-@Params(replace = true)
+@Params(type = ParamsType.BODY)
 @Body
+@Parts
 open class KotlinTest : BaseTest() {
 
     var aa = 1
@@ -25,7 +24,41 @@ open class KotlinTest : BaseTest() {
 
 
     @PostFile(key = "123File")
-    var file: File? = File(Environment.getExternalStorageDirectory().toString() + File.separator + "test.txt")
+    var file: File =
+        File(Environment.getExternalStorageDirectory().toString() + File.separator + "test.txt")
+
+
+    @PostFile
+    var fileInput = FileInput()
+
+    @PostFile
+    var fileArray = arrayOf<File>(file)
+
+    @PostFile
+    var fileInputArray =
+        arrayOf(fileInput)
+
+    @PostFile
+    var fileList: MutableList<File> = ArrayList()
+
+    @PostFile
+    var fileInputList: MutableList<FileInput> =
+        ArrayList()
+
+    @PostFile
+    var fileMap: MutableMap<String, File> =
+        ArrayMap()
+
+    @PostFile
+    var fileInputMap: MutableMap<String, FileInput> =
+        ArrayMap()
+
+    init {
+        fileList.add(file)
+        fileInputList.add(fileInput)
+        fileMap["fileMap"] = file
+        fileInputMap["fileInputMap"] = fileInput
+    }
 
 
 }
