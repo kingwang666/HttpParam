@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * Author: wangxiaojie6
  * Date: 2019/3/28
- * 返回Map<String, String>, Map<String, Object>, Map<String, RequestBody>
+ * 返回Map&lt;String, String&gt;, Map&lt;String, Object&gt;, Map&lt;String, RequestBody&gt;
  */
 @Documented
 @Target({ElementType.TYPE})
@@ -19,8 +19,8 @@ public @interface Params {
     String name() default "getParams";
 
     /**
-     * 返回的参数类型 支持Map<String, String>{@link ParamsType#STRING},
-     * Map<String, Object>{@link ParamsType#OBJECT}, Map<String, RequestBody>{@link ParamsType#BODY}
+     * 返回的参数类型 支持Map&lt;String, String&gt;{@link ParamsType#STRING},
+     * Map&lt;String, Object&gt;{@link ParamsType#OBJECT}, Map&lt;String, RequestBody&gt;{@link ParamsType#BODY}
      * @return 参数类型
      */
     ParamsType type() default ParamsType.STRING;

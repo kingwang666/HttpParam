@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * Created on 2019/6/28.
  * Author: bigwang
- * Description: 返回List<MultipartBody.Part>
+ * Description: 返回List&lt;MultipartBody.Part&gt;
  */
 @Documented
 @Target({ElementType.TYPE})
