@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 29
@@ -33,7 +34,7 @@ dependencies {
 
 //uploadArchives {
 //    repositories.mavenDeployer {
-//        repository(url: "file://F://repository")
+//        repository(url: "file://D://repository")
 //        pom.groupId = GROUP// 唯一标识（通常为模块包名，也可以任意）
 //        pom.artifactId = NAME // 项目名称（通常为类库模块名称，也可以任意）
 //        pom.version = VERSION_NAME // 版本号
