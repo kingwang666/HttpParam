@@ -52,16 +52,15 @@ publishing {
     }
 }
 
-//uploadArchives {
-//    repositories.mavenDeployer {
-//        repository(url: "file://D://repository")
-//        pom.groupId = GROUP// 唯一标识（通常为模块包名，也可以任意）
-//        pom.artifactId = NAME // 项目名称（通常为类库模块名称，也可以任意）
-//        pom.version = VERSION_NAME // 版本号
-//    }
-//}
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://D://repository")
+        pom.groupId = GROUP// 唯一标识（通常为模块包名，也可以任意）
+        pom.artifactId = NAME // 项目名称（通常为类库模块名称，也可以任意）
+        pom.version = VERSION_NAME // 版本号
+    }
+}
 
-////apply plugin: 'com.github.dcendents.android-maven'
 //apply plugin: 'com.jfrog.bintray'
 //
 //version = VERSION_NAME              // 这是库版本部署工件时使用

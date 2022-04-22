@@ -1,8 +1,8 @@
 # HttpParam #
 httpparam  
-[ ![Download](https://api.bintray.com/packages/kingwang666/maven/httpparam/images/download.svg?version=1.1.1) ](https://bintray.com/kingwang666/maven/httpparam/1.1.1/link)  
+[ ![Download](https://api.bintray.com/packages/kingwang666/maven/httpparam/images/download.svg?version=1.2.1) ](https://bintray.com/kingwang666/maven/httpparam/1.2.1/link)  
 httpparam-annotation  
-[ ![Download](https://api.bintray.com/packages/kingwang666/maven/httpparam-annotation/images/download.svg?version=1.1.1) ](https://bintray.com/kingwang666/maven/httpparam-annotation/1.1.1/link)  
+[ ![Download](https://api.bintray.com/packages/kingwang666/maven/httpparam-annotation/images/download.svg?version=1.2.1) ](https://bintray.com/kingwang666/maven/httpparam-annotation/1.2.1/link)  
 
 
 这是一个通过字节码插着帮你自动构建请求体的 Gradle插件。如果你需要IntelliJ IDEA 或者 Android Studio的插件，请移步到[OkHttpParamsGet](https://github.com/kingwang666/OkHttpParamsGet)  

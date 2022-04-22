@@ -1,4 +1,4 @@
-apply plugin: 'com.github.dcendents.android-maven'
+apply from: '../gradle-mavenizer.gradle'
 apply plugin: 'com.jfrog.bintray'
 
 version = VERSION_NAME              // 这是库版本部署工件时使用
@@ -7,75 +7,29 @@ def siteUrl = SITE_URL  // 项目的主页
 def gitUrl = GIT_URL // Git仓库的url
 group = GROUP       // Maven Group ID for the artifact，一般填你唯一的包名
 
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                name DESC     // 项目描述
-                artifactId NAME
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'kingwang666'                // 开发者信息
-                        name 'wangxiaojie'              // 开发者信息
-                        email 'wangxiaojielove666@gmail.com'    // 开发者信息
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    archiveClassifier.set('sources')
-}
-
-//task javadoc(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//}
-//
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//    archiveClassifier.set('javadoc')
-//    from javadoc.destinationDir
-//}
-
-//javadoc {
-//    options {
-//        encoding "UTF-8"
-//        charSet 'UTF-8'
-//        author true
-//        version true
-//        links "http://docs.oracle.com/javase/7/docs/api"
-//        title DESC   // 文档标题
-//    }
-//}
-
-artifacts {
-//    archives javadocJar
-    archives sourcesJar
-}
-
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+project.ext {
+    mavGitUrl =  gitUrl
+    mavProjectName = DESC
+    mavLibraryLicenses = ["Apache-2.0":'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavDevelopers = ["kingwang666":"wangxiaojie"]
+    mavPublishToMavenLocal = true
+    mavSiteUrl = siteUrl
+    mavPublishToRemoteRepo = true
+    mavRemoteRepoUser = properties.getProperty("bintray.user")
+    mavRemoteRepoPassword = properties.getProperty("bintray.apikey")
+    mavRepoRemoteUrl = "https://dl.bintray.com/kingwang666/maven"
+}
+
+
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
+    publications = ['mavenPublish']
+    override = true
     pkg {
         repo = "maven"
         name = NAME             // 发布到JCenter上的项目名字

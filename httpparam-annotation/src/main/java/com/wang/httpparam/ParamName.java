@@ -11,6 +11,7 @@ public @interface ParamName {
 
     /**
      *the post file key. the field type is map is invalid
+     * @return key name
      */
     String value() default "";
 

@@ -11,6 +11,7 @@ public @interface PostFile {
 
     /**
      *the post file key. default use field.name. it is invalid when field type is map.
+     * @return upload file key
      */
     String key() default "";
 
