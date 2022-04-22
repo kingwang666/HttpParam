@@ -13,20 +13,12 @@ class HttpParamPlugin : Plugin<Project> {
     companion object {
 
         private const val EXT_NAME = "httpParam"
-        @JvmStatic
-        fun parseConfig(project: Project):GradleConfig {
-            val params = project.extensions.findByName(EXT_NAME) as? GradleParams ?: GradleParams()
-            val config = GradleConfig(params)
-            if (config.debug) {
-                println("http param $params")
-                println("http config $config")
-            }
-            return config
-        }
+
     }
 
     override fun apply(project: Project) {
         project.extensions.create(EXT_NAME, GradleParams::class.java)
+
         val androidComponents = project.extensions.getByType(
             AndroidComponentsExtension::class.java
         )
@@ -39,5 +31,14 @@ class HttpParamPlugin : Plugin<Project> {
         }
     }
 
+    private fun parseConfig(project: Project): GradleConfig {
+        val params = project.extensions.findByName(EXT_NAME) as? GradleParams ?: GradleParams()
+        val config = GradleConfig(params)
+        if (config.debug) {
+            println("http param $params")
+            println("http config $config")
+        }
+        return config
+    }
 
 }

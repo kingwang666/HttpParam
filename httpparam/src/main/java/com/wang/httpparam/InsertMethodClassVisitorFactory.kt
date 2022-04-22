@@ -25,9 +25,6 @@ abstract class InsertMethodClassVisitorFactory : AsmClassVisitorFactory<GradlePa
         if (classData.superClasses.isEmpty() || classData.classAnnotations.isEmpty()){
             return false
         }
-        if (classData.className == "R.class" || classData.className.startsWith("R$") || classData.className == "BuildConfig") {
-            return false
-        }
         config.exclude.forEach {
             if (classData.className.startsWith(it)) {
                 return false
