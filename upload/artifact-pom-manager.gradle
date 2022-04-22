@@ -1,4 +1,4 @@
-apply from: '../utils.gradle'
+apply from: '../upload/utils.gradle'
  
 def decoratePom(pom) {
     pom.name = getStringProperty("mavProjectName")

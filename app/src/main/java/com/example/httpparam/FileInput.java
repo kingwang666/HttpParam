@@ -21,7 +21,7 @@ public class FileInput {
 
 
     @Data
-    public File data = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
+    public File data = new File(FileHelper.URL);
 
     @Override
     public String toString() {

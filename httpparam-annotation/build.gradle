@@ -1,15 +1,12 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 31
+    compileSdk 31
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 31
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -23,19 +20,28 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            // 这里的 hello 可以任意命名
+            maven(MavenPublication) {
+                // 插件的组ID，建议设置为插件的包名
+                groupId = GROUP
+                // 翻译过来是 工件ID，我的理解是插件的名字
+                artifactId = ARTIFACT
+                version = VERSION_NAME
+                // 组件类型，我们的插件其实就是Java组件
+                from components.release
+            }
+        }
 
-//uploadArchives {
-//    repositories.mavenDeployer {
-//        repository(url: "file://D://repository")
-//        pom.groupId = GROUP// 唯一标识（通常为模块包名，也可以任意）
-//        pom.artifactId = NAME // 项目名称（通常为类库模块名称，也可以任意）
-//        pom.version = VERSION_NAME // 版本号
-//    }
-//}
-//apply from: '../bintray.gradle'
+        repositories {
+            maven {
+                // $rootDir 表示你项目的根目录
+                url = "file:///Users/wangxiaojie/repos"
+            }
+        }
+    }
+}

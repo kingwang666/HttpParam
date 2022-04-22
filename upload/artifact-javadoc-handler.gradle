@@ -1,4 +1,4 @@
-apply from: "../utils.gradle"
+apply from: "../upload/utils.gradle"
 
 if (isAndroidProject()) {
     task androidJavadocs(type: Javadoc) {

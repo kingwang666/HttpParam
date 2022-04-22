@@ -36,7 +36,7 @@ public class FileReq extends BaseReq {
     public Integer age = 18;
 
     @PostFile
-    public File file = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
+    public File file = new File(FileHelper.URL);
 
     @PostFile
     public FileInput fileInput = new FileInput();

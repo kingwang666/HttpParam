@@ -32,12 +32,11 @@ gradlePlugin {
 
 publishing {
     publications {
-        // 这里的 hello 可以任意命名
-        httparam(MavenPublication) {
+        maven(MavenPublication) {
             // 插件的组ID，建议设置为插件的包名
             groupId = GROUP
             // 翻译过来是 工件ID，我的理解是插件的名字
-            artifactId = 'httpparam'
+            artifactId = ARTIFACT
             version = VERSION_NAME
             // 组件类型，我们的插件其实就是Java组件
             from components.java
@@ -49,15 +48,6 @@ publishing {
             // $rootDir 表示你项目的根目录
             url = "file:///Users/wangxiaojie/repos"
         }
-    }
-}
-
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: "file://D://repository")
-        pom.groupId = GROUP// 唯一标识（通常为模块包名，也可以任意）
-        pom.artifactId = NAME // 项目名称（通常为类库模块名称，也可以任意）
-        pom.version = VERSION_NAME // 版本号
     }
 }
 

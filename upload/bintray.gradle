@@ -1,4 +1,4 @@
-apply from: '../gradle-mavenizer.gradle'
+apply from: '../upload/gradle-mavenizer.gradle'
 apply plugin: 'com.jfrog.bintray'
 
 version = VERSION_NAME              // 这是库版本部署工件时使用

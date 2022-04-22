@@ -27,6 +27,8 @@ import java.util.Map;
 @Body
 public class BaseTest {
 
+    int baseInt  = 1;
+
     @NonNull
     public String guessMimeType(String path) {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();

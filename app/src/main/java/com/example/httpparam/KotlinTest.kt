@@ -24,8 +24,7 @@ open class KotlinTest : BaseTest() {
 
 
     @PostFile(key = "123File")
-    var file: File =
-        File(Environment.getExternalStorageDirectory().toString() + File.separator + "test.txt")
+    var file: File = File(FileHelper.URL)
 
 
     @PostFile
