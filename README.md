@@ -1,8 +1,4 @@
 # HttpParam #
-httpparam  
-[ ![Download](https://api.bintray.com/packages/kingwang666/maven/httpparam/images/download.svg?version=1.2.1) ](https://bintray.com/kingwang666/maven/httpparam/1.2.1/link)  
-httpparam-annotation  
-[ ![Download](https://api.bintray.com/packages/kingwang666/maven/httpparam-annotation/images/download.svg?version=1.2.1) ](https://bintray.com/kingwang666/maven/httpparam-annotation/1.2.1/link)  
 
 
 这是一个通过字节码插着帮你自动构建请求体的 Gradle插件。如果你需要IntelliJ IDEA 或者 Android Studio的插件，请移步到[OkHttpParamsGet](https://github.com/kingwang666/OkHttpParamsGet)  
@@ -25,59 +21,81 @@ httpparam-annotation
 5. MultipartBody.Builder
 
 ## 使用 ##
-    
+
+### 低版本Gradle ###
+
     buildscript {
         .
         .
         .
-		dependencies {
-	        .
-	        .
-	        .
-			classpath 'com.wang.httpparam:httpparam:1.2.1'  
-		}
+    	dependencies {
+            .
+            .
+            .
+    		classpath 'com.wang.httpparam:httpparam:1.2.1'  
+    	}
     }
-    
-     
+
+
+​     
 
     //annotations 
     implementation 'com.wang.httpparam:httpparam-annotation:1.2.1'
+
+### Gradle7.0 ###
+
+    buildscript {
+        .
+        .
+        .
+    	dependencies {
+            .
+            .
+            .
+    		classpath 'io.github.kingwang666:httpparam:3.0.0'
+    	}
+    }
+
+
+
+    //annotations
+    implementation 'io.github.kingwang666:httpparam-annotation:3.0.0'
 
 
 你可以自定义一些参数
 
     apply plugin: 'com.wang.httpparam'
-	
-	httpParam {
-	
-	    //是否开启日志
-	    debug = true
-	    //当参数为空时 是否已空字符串形式加入
-	    add = true
-	    //使用support的ArrayMap 还是 androidx的ArrayMap
-	    androidx = true
+    
+    httpParam {
+    
+        //是否开启日志
+        debug = true
+        //当参数为空时 是否已空字符串形式加入
+        add = true
+        //使用support的ArrayMap 还是 androidx的ArrayMap
+        androidx = true
         //是否为okhttp 4.x版本
         okHttpV4 = true
-	
-	    file = [
-	            //文件上传结构体key值参数名称 必须为public 类型String，默认为"key"
-	            key     : "key",
-	            //文件上传结构体filename值参数名称 必须为public 类型String，默认为"filename"
-	            filename: "filename",
-	            //文件上传结构体mimeType值参数名称 必须为public 类型String，默认为 null
-	            mimeType: null,
-	            //文件上传结构体data值参数名称 必须为public 类型java.io.File, 默认为"data"
-	            data    : "data"
-	    ]
-	
-	    //排除类
-	    exclude = [
-	            "com.wang.asmdemo.exclude"
-	    ]
-	}
+    
+        file = [
+                //文件上传结构体key值参数名称 必须为public 类型String，默认为"key"
+                key     : "key",
+                //文件上传结构体filename值参数名称 必须为public 类型String，默认为"filename"
+                filename: "filename",
+                //文件上传结构体mimeType值参数名称 必须为public 类型String，默认为 null
+                mimeType: null,
+                //文件上传结构体data值参数名称 必须为public 类型java.io.File, 默认为"data"
+                data    : "data"
+        ]
+    
+        //排除类
+        exclude = [
+                "com.wang.asmdemo.exclude"
+        ]
+    }
 
 
-文件上传结构体请参考[FileInput](https://github.com/kingwang666/HttpParam/blob/master/app/src/main/java/com/example/httpparam/FileInput.java)
+文件上传结构体请参考[FileInput或者直接使用File类](https://github.com/kingwang666/HttpParam/blob/master/app/src/main/java/com/example/httpparam/FileInput.java)
 
 使用注解@Params、@Parts或者@Body来标注类即可。支持多个一起  
 
@@ -97,8 +115,7 @@ httpparam-annotation
 	    @PostFile
 	    public File file = new File(Environment.getExternalStorageDirectory() + File.separator + "test.txt");
 	    
-	    
-	}
+	} 
 
 编译后生成的类  
 

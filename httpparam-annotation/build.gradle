@@ -22,26 +22,28 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // 这里的 hello 可以任意命名
-            maven(MavenPublication) {
-                // 插件的组ID，建议设置为插件的包名
-                groupId = GROUP
-                // 翻译过来是 工件ID，我的理解是插件的名字
-                artifactId = ARTIFACT
-                version = VERSION_NAME
-                // 组件类型，我们的插件其实就是Java组件
-                from components.release
-            }
-        }
+apply from: '../upload/upload.gradle'
 
-        repositories {
-            maven {
-                // $rootDir 表示你项目的根目录
-                url = "file:///Users/wangxiaojie/repos"
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            // 这里的 hello 可以任意命名
+//            maven(MavenPublication) {
+//                // 插件的组ID，建议设置为插件的包名
+//                groupId = GROUP
+//                // 翻译过来是 工件ID，我的理解是插件的名字
+//                artifactId = ARTIFACT
+//                version = VERSION_NAME
+//                // 组件类型，我们的插件其实就是Java组件
+//                from components.release
+//            }
+//        }
+//
+//        repositories {
+//            maven {
+//                // $rootDir 表示你项目的根目录
+//                url = "file:///Users/wangxiaojie/repos"
+//            }
+//        }
+//    }
+//}

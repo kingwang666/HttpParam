@@ -1,0 +1,24 @@
+apply from: '../upload/gradle-mavenizer.gradle'
+
+version = VERSION_NAME              // 这是库版本部署工件时使用
+
+group = GROUP       // Maven Group ID for the artifact，一般填你唯一的包名
+
+
+project.ext {
+    mavGitUrl = GIT_URL
+    mavProjectName = ARTIFACT
+    mavLibraryDescription = DESC
+    mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavDevelopers = ["kingwang666": "wangxiaojie"]
+    mavSiteUrl = SITE_URL
+
+    mavPublishToMavenLocal = false
+
+    mavPublishToInternalRepo = true
+    mavRepoInternalUrl = "file:///Users/wangxiaojie/repos"
+
+    mavPublishToRemoteRepo = false
+
+    mavSigning = true
+}

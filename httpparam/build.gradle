@@ -30,110 +30,25 @@ gradlePlugin {
     }
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            // 插件的组ID，建议设置为插件的包名
-            groupId = GROUP
-            // 翻译过来是 工件ID，我的理解是插件的名字
-            artifactId = ARTIFACT
-            version = VERSION_NAME
-            // 组件类型，我们的插件其实就是Java组件
-            from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            // $rootDir 表示你项目的根目录
-            url = "file:///Users/wangxiaojie/repos"
-        }
-    }
-}
-
-//apply plugin: 'com.jfrog.bintray'
+//publishing {
+//    publications {
+//        maven(MavenPublication) {
+//            // 插件的组ID，建议设置为插件的包名
+//            groupId = GROUP
+//            // 翻译过来是 工件ID，我的理解是插件的名字
+//            artifactId = ARTIFACT
+//            version = VERSION_NAME
+//            // 组件类型，我们的插件其实就是Java组件
+//            from components.java
+//        }
+//    }
 //
-//version = VERSION_NAME              // 这是库版本部署工件时使用
-//
-//def siteUrl = SITE_URL  // 项目的主页
-//def gitUrl = GIT_URL // Git仓库的url
-//group = GROUP       // Maven Group ID for the artifact，一般填你唯一的包名
-//
-//install {
-//    repositories.mavenInstaller {
-//        // This generates POM.xml with proper parameters
-//        pom {
-//            project {
-//                packaging 'aar'
-//                name DESC     // 项目描述
-//                url siteUrl
-//                artifactId NAME
-//                licenses {
-//                    license {
-//                        name 'The Apache Software License, Version 2.0'
-//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id 'kingwang666'                // 开发者信息
-//                        name 'wangxiaojie'              // 开发者信息
-//                        email 'wangxiaojielove666@gmail.com'    // 开发者信息
-//                    }
-//                }
-//                scm {
-//                    connection gitUrl
-//                    developerConnection gitUrl
-//                    url siteUrl
-//                }
-//            }
+//    repositories {
+//        maven {
+//            // $rootDir 表示你项目的根目录
+//            url = "file:///Users/wangxiaojie/repos"
 //        }
 //    }
 //}
-//
-//task sourcesJar(type: Jar) {
-//    from project.file('src/main/groovy')
-//    archiveClassifier.set('sources')
-//}
-//
-////task javadoc(type: Javadoc) {
-////    source = android.sourceSets.main.java.srcDirs
-////    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-////}
-////
-////task javadocJar(type: Jar, dependsOn: javadoc) {
-////    classifier = 'javadoc'
-////    from javadoc.destinationDir
-////}
-//
-//javadoc {
-//    options {
-//        encoding "UTF-8"
-//        charSet 'UTF-8'
-//        author true
-//        version true
-//        links "http://docs.oracle.com/javase/7/docs/api"
-//        title DESC   // 文档标题
-//    }
-//}
-//
-//artifacts {
-////    archives javadocJar
-//    archives sourcesJar
-//}
-//
-//Properties properties = new Properties()
-//properties.load(project.rootProject.file('local.properties').newDataInputStream())
-//bintray {
-//    user = properties.getProperty("bintray.user")
-//    key = properties.getProperty("bintray.apikey")
-//    configurations = ['archives']
-//    pkg {
-//        repo = "maven"
-//        name = NAME             // 发布到JCenter上的项目名字
-//        websiteUrl = siteUrl
-//        vcsUrl = gitUrl
-//        licenses = ["Apache-2.0"]
-//        publish = true
-//    }
-//}
+
+apply from: '../upload/upload.gradle'

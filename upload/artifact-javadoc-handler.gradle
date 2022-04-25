@@ -20,29 +20,31 @@ if (isAndroidProject()) {
             locale = 'en_US'
             encoding = 'UTF-8'
             charSet = 'UTF-8'
-            links("http://docs.oracle.com/javase/7/docs/api/")
-            linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
             setMemberLevel(JavadocMemberLevel.PUBLIC)
         }
     }
 
     task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-        classifier = 'javadoc'
+        getArchiveClassifier().convention('javadoc')
+        getArchiveClassifier().set('javadoc')
         from androidJavadocs.destinationDir
     }
 
     task androidSourcesJar(type: Jar) {
-        classifier = 'sources'
+        getArchiveClassifier().convention('sources')
+        getArchiveClassifier().set('sources')
         from android.sourceSets.main.java.srcDirs
     }
 } else {
     task sourcesJar(type: Jar) {
-        from sourceSets.main.allJava
-        archiveClassifier = 'sources'
+        from sourceSets.main.allSource
+        getArchiveClassifier().convention('sources')
+        getArchiveClassifier().set('sources')
     }
 
     task javadocJar(type: Jar) {
         from javadoc
-        archiveClassifier = 'javadoc'
+        getArchiveClassifier().convention('javadoc')
+        getArchiveClassifier().set('javadoc')
     }
 }

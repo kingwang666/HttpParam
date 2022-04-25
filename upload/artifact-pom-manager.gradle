@@ -4,7 +4,7 @@ def decoratePom(pom) {
     pom.name = getStringProperty("mavProjectName")
     pom.description = getStringProperty("mavLibraryDescription")
     pom.url = getStringProperty("mavSiteUrl")
-    
+
     pom.licenses {
         getArrayProperty("mavLibraryLicenses").each { licenseName, licenseUrl ->
             license {
@@ -36,7 +36,7 @@ def addDependencies(pom) {
         ext.addDependency = { Dependency dep, String scope ->
             if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
                 return // ignore invalid dependencies
-            
+
             if (dep.artifacts.size() > 0) {
                 dep.artifacts.each { art ->
                     addDependencyNode(dependenciesNode, dep, scope, art.classifier, art.extension)
@@ -58,13 +58,13 @@ def addDependencyNode(dependenciesNode, dep, scope, classifier, extension) {
     if (classifier != null) {
         dependencyNode.appendNode('classifier', classifier)
     }
-    
+
     if (extension != null) {
         dependencyNode.appendNode('type', extension)
     }
-    
+
     dependencyNode.appendNode('scope', scope)
-    
+
     if (!dep.transitive) {
         // If this dependency is transitive, we should force exclude all its dependencies them from the POM
         final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
@@ -78,19 +78,25 @@ def addDependencyNode(dependenciesNode, dep, scope, classifier, extension) {
             exclusionNode.appendNode('artifactId', rule.module ?: '*')
              exclusionNode.appendNode('groupId', rule.group ?: '*')
         }
-    }   
+    }
 }
 
 def manageConfigurations(configurations) {
-    configurations.compile.getDependencies().each { dep -> addDependency(dep, "compile") }
-    configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
-    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+    configurations.api.getDependencies().each { dep -> addDependency(dep, "api") }
+    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
     configurations.testImplementation.getDependencies().each { dep -> addDependency(dep, "test") }
-    configurations.testCompile.getDependencies().each { dep -> addDependency(dep, "test") }
-
+    
     if (!isAndroidProject()) {
-        configurations.runtime.getDependencies().each { dep -> addDependency(dep, "runtime") }
-        configurations.testRuntime.getDependencies().each { dep -> addDependency(dep, "test") }
+        try {
+            configurations.runtime.getDependencies().each { dep -> addDependency(dep, "runtime") }
+        } catch (Exception ex) {
+            configurations.runtimeClasspath.getDependencies().each { dep -> addDependency(dep, "runtime") }
+        }
+        try {
+            configurations.testRuntime.getDependencies().each { dep -> addDependency(dep, "test") }
+        } catch (Exception ex) {
+            configurations.testRuntimeClasspath.getDependencies().each { dep -> addDependency(dep, "test") }
+        }
     }
 }
 
