@@ -15,6 +15,10 @@ import java.util.*
 @Parts
 open class KotlinTest : BaseTest() {
 
+    companion object{
+        const val bb = "123"
+    }
+
     var aa = 1
 
     var str: String? = "123"

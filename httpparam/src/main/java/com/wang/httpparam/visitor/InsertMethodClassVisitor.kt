@@ -69,7 +69,7 @@ class InsertMethodClassVisitor constructor(classVisitor: ClassVisitor, config: G
         value: Any?
     ): FieldVisitor {
         val fv = super.visitField(access, name, descriptor, signature, value)
-        return if (mHelpers.isEmpty()) {
+        return if (mHelpers.isEmpty() || (access and Opcodes.ACC_STATIC) != 0) {
             fv
         } else KFieldVisitor(fv, mFields, KField(name, descriptor, signature), mConfig)
     }

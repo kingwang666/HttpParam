@@ -35,6 +35,7 @@ class HttpParamPlugin : Plugin<Project> {
         val params = project.extensions.findByName(EXT_NAME) as? GradleParams ?: GradleParams()
         val config = GradleConfig(params)
         if (config.debug) {
+            println(project.displayName)
             println("http param $params")
             println("http config $config")
         }

@@ -15,10 +15,10 @@ project.ext {
 
     mavPublishToMavenLocal = false
 
-    mavPublishToInternalRepo = true
+    mavPublishToInternalRepo = false
     mavRepoInternalUrl = "file:///Users/wangxiaojie/repos"
 
-    mavPublishToRemoteRepo = false
+    mavPublishToRemoteRepo = true
 
     mavSigning = true
 }
