@@ -2,7 +2,7 @@
 
 buildscript {
     ext.kotlin_version = '1.6.21'
-    ext.httpparam_version = VERSION_NAME
+    ext.httpparam_version = "3.0.1"
     repositories {
 //        maven {//本地Maven仓库地址
 //            url 'file:///Users/wangxiaojie/repos'

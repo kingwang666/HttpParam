@@ -52,14 +52,14 @@
             .
             .
             .
-    		classpath 'io.github.kingwang666:httpparam:3.0.0'
+    		classpath 'io.github.kingwang666:httpparam:3.0.1'
     	}
     }
 
 
 
     //annotations
-    implementation 'io.github.kingwang666:httpparam-annotation:3.0.0'
+    implementation 'io.github.kingwang666:httpparam-annotation:3.0.1'
 
 
 你可以自定义一些参数

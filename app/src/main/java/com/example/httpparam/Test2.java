@@ -15,6 +15,8 @@ import okhttp3.RequestBody;
 
 public class Test2 extends BaseReq {
 
+    private static String bb = "bb";
+
     @PostFile(key = "testFile")
     @NonNull
     File[] files;
